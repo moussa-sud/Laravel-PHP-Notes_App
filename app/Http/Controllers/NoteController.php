@@ -18,12 +18,12 @@ class NoteController extends Controller
 
 
     {
-        $notes = Notes::query()->orderBy('Created_at', 'desc')->get();
+        $notes = Notes::orderBy('Created_at', 'desc')->get();
 
         // this method which dumps all the data from the data base 
         // dd($notes); 
         
-        return view('note.index', ['notes'=> $notes]); 
+        return view('note.index')->with('notes', $notes); 
     }
 
     /**
@@ -52,7 +52,7 @@ class NoteController extends Controller
 
         Notes::create($incomingFields); 
 
-        return redirect('/note')->with('success', 'Comment stored successfully!');
+        return redirect()->route('note.index')->with('success', 'Comment stored successfully!');
     }
 
 
@@ -111,7 +111,6 @@ class NoteController extends Controller
     {
         // dd($note);
         $note->delete();
-
         return redirect()->route('note.index')->with('success', 'Note deleted successfully.');
     }
 }
